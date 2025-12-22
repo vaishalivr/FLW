@@ -1,4 +1,3 @@
-
 <script>
 	import DrawingArea from './DrawingArea.svelte';
 	import RightSection from './RightSection.svelte';

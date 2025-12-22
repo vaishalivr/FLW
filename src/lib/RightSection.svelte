@@ -1,10 +1,54 @@
+<script>
+	import { selectedRectId, isDrawing, previewData, rectangles } from './store.js';
+
+	// Reactive data to display
+	$: selectedRect = $rectangles.find((rect) => rect.id === $selectedRectId);
+	$: lastRect = $rectangles.length > 0 ? $rectangles[$rectangles.length - 1] : null;
+
+	// Display logic:
+	// 1. If drawing, show preview data
+	// 2. If a rectangle is selected, show its data
+	// 3. If no selection but rectangles exist, show the last created rectangle
+	// 4. Otherwise show empty state
+	$: displayData = $isDrawing
+		? $previewData
+		: selectedRect
+			? selectedRect.data
+			: lastRect
+				? lastRect.data
+				: null;
+
+	// Clear all rectangles
+	const clearDrawingBoard = () => {
+		rectangles.set([]);
+		selectedRectId.set(null);
+		previewData.set(null);
+	};
+</script>
+
 <div class="right-section">
-	<div class="header">
-		FRANK LLOYD WRIGHT
+	<div>
+		<div class="header">FRANK LLOYD WRIGHT</div>
+		<div class="button-container">
+			<button class="nav-button">About</button>
+			<button class="nav-button">Contact</button>
+			<button class="nav-button" on:click={clearDrawingBoard}>Clear Drawing Board</button>
+		</div>
 	</div>
-	<div class="button-container">
-		<button class="nav-button">ABOUT</button>
-		<button class="nav-button">CONTACT</button>
+	<div>
+		<div style="border-top:1px solid black">
+			{#if displayData}
+				<div class="drawing-details">Project Name: {displayData.projectName}</div>
+				<div class="drawing-details">Project Address: {displayData.projectAddress}</div>
+				<div class="drawing-details">Client Name: {displayData.clientName}</div>
+				<div class="drawing-details">Drawing Title: {displayData.drawingTitle}</div>
+			{:else}
+				<div class="drawing-details">Project Name:</div>
+				<div class="drawing-details">Project Address:</div>
+				<div class="drawing-details">Client Name:</div>
+				<div class="drawing-details">Drawing Title:</div>
+			{/if}
+		</div>
 	</div>
 </div>
 
@@ -14,10 +58,11 @@
 		border: 3px solid black;
 		display: flex;
 		flex-direction: column;
+		justify-content: space-between;
 	}
 
 	.header {
-		height: 90px;
+		height: 75px;
 		font-weight: 600;
 		font-size: 16px;
 		display: flex;
@@ -39,14 +84,20 @@
 		font-weight: 500;
 		font-size: 14px;
 		letter-spacing: 0.5px;
-		padding: 12px 20px;
-		background: white;
-		border: 2px solid black;
 		cursor: pointer;
 		transition: all 0.2s ease;
+		text-align: left;
+		padding: 8px 12px;
+		background: white;
+		border: none;
 	}
 
 	.nav-button:hover {
-		background: teal;
+		border-bottom: 1px solid black;
+		box-sizing: border-box;
+	}
+
+	.drawing-details {
+		border-bottom: 1px solid black;
 	}
 </style>

@@ -11,8 +11,8 @@ export function createCursorSvg() {
 
 export function createCursorDataUri() {
 	const cursorSvg = createCursorSvg();
-	const hotspotX = CURSOR_WIDTH / 2;  // 45px - center of the crosshair
-	const hotspotY = CURSOR_WIDTH / 2;  // 45px - center of the crosshair (not HEIGHT)
+	const hotspotX = CURSOR_WIDTH / 2; // 45px - center of the crosshair
+	const hotspotY = CURSOR_WIDTH / 2; // 45px - center of the crosshair (not HEIGHT)
 	const dataUri = `url('data:image/svg+xml;utf8,${encodeURIComponent(cursorSvg)}') ${hotspotX} ${hotspotY}, crosshair`;
 	return dataUri;
 }

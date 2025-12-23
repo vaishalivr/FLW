@@ -18,6 +18,12 @@
 				? lastRect.data
 				: null;
 
+	// Button visibility logic
+	$: showAboutButton = $currentView !== 'about';
+	$: showContactButton = $currentView !== 'contact';
+	$: showDrawingBoardButton = $currentView !== 'drawing';
+	$: showClearButton = $currentView === 'drawing' && $rectangles.length > 0;
+
 	// Clear all rectangles
 	const clearDrawingBoard = () => {
 		rectangles.set([]);
@@ -34,6 +40,11 @@
 	const showContactPage = () => {
 		currentView.set('contact');
 	};
+
+	// Navigate to Drawing view
+	const showDrawingView = () => {
+		currentView.set('drawing');
+	};
 </script>
 
 <div class="right-section">
@@ -41,10 +52,21 @@
 		<div class="header">FRANK LLOYD WRIGHT</div>
 		<div class="button-container">
 			<!-- Navigate to About page to learn about Frank Lloyd Wright's life, work, and architectural ideas -->
-			<button class="nav-button" on:click={showAboutPage}>His Life, Work, Ideas</button>
+			{#if showAboutButton}
+				<button class="nav-button" on:click={showAboutPage}>His Life, Work, Ideas</button>
+			{/if}
 			<!-- Navigate to Contact page for visiting information and foundation contact details -->
-			<button class="nav-button" on:click={showContactPage}>Contact</button>
-			<button class="nav-button" on:click={clearDrawingBoard}>Clear Drawing Board</button>
+			{#if showContactButton}
+				<button class="nav-button" on:click={showContactPage}>Contact</button>
+			{/if}
+			<!-- Navigate back to Drawing Board -->
+			{#if showDrawingBoardButton}
+				<button class="nav-button" on:click={showDrawingView}>Drawing Board</button>
+			{/if}
+			<!-- Clear Drawing Board - only show when on drawing view and rectangles exist -->
+			{#if showClearButton}
+				<button class="nav-button" on:click={clearDrawingBoard}>Clear Drawing Board</button>
+			{/if}
 		</div>
 	</div>
 	<div>

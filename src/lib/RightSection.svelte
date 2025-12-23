@@ -1,5 +1,5 @@
 <script>
-	import { selectedRectId, isDrawing, previewData, rectangles } from './store.js';
+	import { selectedRectId, isDrawing, previewData, rectangles, currentView } from './store.js';
 
 	// Reactive data to display
 	$: selectedRect = $rectangles.find((rect) => rect.id === $selectedRectId);
@@ -24,14 +24,26 @@
 		selectedRectId.set(null);
 		previewData.set(null);
 	};
+
+	// Navigate to About page
+	const showAboutPage = () => {
+		currentView.set('about');
+	};
+
+	// Navigate to Contact page
+	const showContactPage = () => {
+		currentView.set('contact');
+	};
 </script>
 
 <div class="right-section">
 	<div>
 		<div class="header">FRANK LLOYD WRIGHT</div>
 		<div class="button-container">
-			<button class="nav-button">About</button>
-			<button class="nav-button">Contact</button>
+			<!-- Navigate to About page to learn about Frank Lloyd Wright's life, work, and architectural ideas -->
+			<button class="nav-button" on:click={showAboutPage}>His Life, Work, Ideas</button>
+			<!-- Navigate to Contact page for visiting information and foundation contact details -->
+			<button class="nav-button" on:click={showContactPage}>Contact</button>
 			<button class="nav-button" on:click={clearDrawingBoard}>Clear Drawing Board</button>
 		</div>
 	</div>

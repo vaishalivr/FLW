@@ -1,11 +1,20 @@
 <script>
 	import DrawingArea from './DrawingArea.svelte';
 	import RightSection from './RightSection.svelte';
+	import AboutPage from './AboutPage.svelte';
+	import ContactPage from './ContactPage.svelte';
+	import { currentView } from './store.js';
 </script>
 
 <div class="drawing-sheet">
 	<div class="inner-area">
-		<DrawingArea />
+		{#if $currentView === 'drawing'}
+			<DrawingArea />
+		{:else if $currentView === 'about'}
+			<AboutPage />
+		{:else if $currentView === 'contact'}
+			<ContactPage />
+		{/if}
 		<RightSection />
 	</div>
 </div>

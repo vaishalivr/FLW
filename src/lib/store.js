@@ -22,3 +22,6 @@ export const selectedRectId = writable(null);
 export const isDrawing = writable(false);
 export const previewData = writable(null);
 export const rectangles = writable([]);
+
+// Navigation state management
+export const currentView = writable('drawing'); // 'drawing', 'about', or 'contact'
